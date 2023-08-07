@@ -1,22 +1,39 @@
 {
-  "user": [
+  "users": [
     {
-      "id": 0,
-      "name": "John",
-      "email": "john@hotmail.com",
-      "password": "123456"
+      "email": "enricyb@hotmail.com",
+      "password": "$2a$10$xuq4HTkFQoapO8.GUlYHHu4cd3xvQIenDi4xaHWgVtP0SJk5B/pf.",
+      "id": 3
     },
     {
-      "id": 1,
-      "name": "Mary",
-      "email": "mary@hotmail.com",
-      "password": "123456"
-    },
-    {
-      "id": 2,
       "email": "enrickyb@hotmail.com",
-      "password": "virgem123"
-      
+      "password": "$2a$10$e5GsU9YYyzd.aoSe7NubheMe1KhcloFVL58nu0nC04LM0/2D3sWw6",
+      "id": 4
+    },
+    {
+      "email": "enrickyb@hotmail.com",
+      "password": "virgem123",
+      "id": 5
+    },
+    {
+      "email": "enrickyb@hotmail.com",
+      "password": "virgem123",
+      "id": 6
+    },
+    {
+      "email": "enrickyb@hotmail.com",
+      "password": "virgem123",
+      "id": 7
+    },
+    {
+      "email": "enrickybb@hotmail.com",
+      "password": "$2a$10$omXQDeTWtJHgarYd5YJXHenpDYcTUITNOtHc.HCMb9NATou5h9G3i",
+      "id": 8
+    },
+    {
+      "email": "enrickyba@hotmail.com",
+      "password": "$2a$10$bxBXsvw/WnUEihSjY.HaBeV55onYuNsAYH59yKr5M8W1YU3PCKL1a",
+      "id": 9
     }
   ]
 }
