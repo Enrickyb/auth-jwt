@@ -6,37 +6,46 @@ import UserProvider, { UserContext } from "./src/context/userContext";
 import { Register } from "./src/screens/Register";
 import { useCallback, useContext } from "react";
 import { useFonts } from "expo-font";
-import * as SplashScreen from "expo-splash-screen";
+import { StatusBar } from "expo-status-bar";
 import { View } from "react-native";
+import * as SplashScreen from "expo-splash-screen";
 
 const Stack = createNativeStackNavigator();
-
-//SplashScreen.preventAutoHideAsync();
+SplashScreen.preventAutoHideAsync();
 
 export default function App() {
-  const { auth, singned } = useContext(UserContext);
-  /* const [isLoaded] = useFonts({
-    "gilroy-light": require("./src/assets/fonts/GilroyLight.otf"),
-    "gilroy-bold": require("./src/assets/fonts/GilroyExtraBold.otf"),
+  const { singned } = useContext(UserContext);
+  const [isLoaded] = useFonts({
+    "gilroy-light": require("./assets/fonts/GilroyLight.otf"),
+    "gilroy-bold": require("./assets/fonts/GilroyExtraBold.otf"),
+    roboto: require("./assets/fonts/Roboto-Regular.ttf"),
   });
-  const handleOnLayout = useCallback(async () => {
+
+  const onLayoutRootView = useCallback(async () => {
     if (isLoaded) {
       await SplashScreen.hideAsync();
     }
   }, [isLoaded]);
-  handleOnLayout();*/
+
+  if (!isLoaded) {
+    return null;
+  }
+
   return (
-    <UserProvider>
-      <NavigationContainer>
-        <Stack.Navigator
-          screenOptions={{ headerShown: false }}
-          initialRouteName={singned ? "Home" : " SingUp"}
-        >
-          <Stack.Screen name="SingUp" component={SingUp} />
-          <Stack.Screen name="Home" component={Home} />
-          <Stack.Screen name="Register" component={Register} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </UserProvider>
+    <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+      <UserProvider>
+        <NavigationContainer>
+          <StatusBar translucent />
+          <Stack.Navigator
+            screenOptions={{ headerShown: false }}
+            initialRouteName={singned ? "Home" : " SingUp"}
+          >
+            <Stack.Screen name="SingUp" component={SingUp} />
+            <Stack.Screen name="Home" component={Home} />
+            <Stack.Screen name="Register" component={Register} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </UserProvider>
+    </View>
   );
 }

@@ -98,13 +98,13 @@ export const Register = ({
 
       <View style={styles.SocialButtonContainer}>
         <Pressable style={styles.SocialButton}>
-          <Image source={require("../../assets/Google.png")} />
+          <Image source={require("../../../assets/Google.png")} />
         </Pressable>
         <Pressable style={styles.SocialButton}>
-          <Image source={require("../../assets/Apple.png")} />
+          <Image source={require("../../../assets/Apple.png")} />
         </Pressable>
         <Pressable style={styles.SocialButton}>
-          <Image source={require("../../assets/Facebook.png")} />
+          <Image source={require("../../../assets/Facebook.png")} />
         </Pressable>
       </View>
 
