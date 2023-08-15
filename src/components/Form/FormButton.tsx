@@ -1,13 +1,13 @@
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import { View, Text, StyleSheet, Pressable, ButtonProps } from "react-native";
 
-interface FormButtonProps {
-  onPressProps: () => void;
+interface FormButtonProps extends ButtonProps {
+  text?: any;
 }
 
-export const FormButton = ({ onPressProps }: FormButtonProps) => {
+export const FormButton = ({ text, ...rest }: FormButtonProps) => {
   return (
-    <Pressable style={styles.Button} onPress={onPressProps}>
-      <Text style={styles.TextButton}>Sign In</Text>
+    <Pressable style={styles.Button} {...rest}>
+      {text}
     </Pressable>
   );
 };
@@ -15,11 +15,12 @@ export const FormButton = ({ onPressProps }: FormButtonProps) => {
 const styles = StyleSheet.create({
   Button: {
     backgroundColor: "#4461F2",
-    width: 300,
-    height: 40,
+    width: 350,
+    height: 55,
     justifyContent: "center",
     alignItems: "center",
     marginTop: 20,
+    borderRadius: 7,
   },
   TextButton: {
     color: "#ffffff",

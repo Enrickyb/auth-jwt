@@ -9,6 +9,11 @@ import { useFonts } from "expo-font";
 import { StatusBar } from "expo-status-bar";
 import { View } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
+import { Cam } from "./src/screens/Cam";
+
+import { QueryClient, QueryClientProvider } from "react-query";
+
+const queryClient = new QueryClient();
 
 const Stack = createNativeStackNavigator();
 SplashScreen.preventAutoHideAsync();
@@ -33,19 +38,22 @@ export default function App() {
 
   return (
     <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-      <UserProvider>
-        <NavigationContainer>
-          <StatusBar translucent />
-          <Stack.Navigator
-            screenOptions={{ headerShown: false }}
-            initialRouteName={singned ? "Home" : " SingUp"}
-          >
-            <Stack.Screen name="SingUp" component={SingUp} />
-            <Stack.Screen name="Home" component={Home} />
-            <Stack.Screen name="Register" component={Register} />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </UserProvider>
+      <QueryClientProvider client={queryClient}>
+        <UserProvider>
+          <NavigationContainer>
+            <StatusBar translucent />
+            <Stack.Navigator
+              screenOptions={{ headerShown: false }}
+              initialRouteName={singned ? "Home" : " SingUp"}
+            >
+              <Stack.Screen name="SingUp" component={SingUp} />
+              <Stack.Screen name="Home" component={Home} />
+              <Stack.Screen name="Register" component={Register} />
+              <Stack.Screen name="Cam" component={Cam} />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </UserProvider>
+      </QueryClientProvider>
     </View>
   );
 }

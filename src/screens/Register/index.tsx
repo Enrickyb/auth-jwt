@@ -1,5 +1,4 @@
 import { View, Text, StyleSheet, Pressable, Image } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useContext, useState } from "react";
 import { FormInput } from "../../components/Form/FormInput";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -109,15 +108,13 @@ export const Register = ({
       </View>
 
       <View>
-        <Text>
-          <Pressable
-            onPress={() => {
-              navigation.navigate("SingUp");
-            }}
-          >
-            Login
-          </Pressable>
-        </Text>
+        <Pressable
+          onPress={() => {
+            navigation.navigate("SingUp");
+          }}
+        >
+          <Text>Login</Text>
+        </Pressable>
       </View>
     </View>
   );
@@ -132,6 +129,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#F6F6F6",
     height: "100%",
     width: "100%",
+    flex: 1,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -139,7 +137,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   container: {
-    flex: 1,
     alignItems: "center",
     justifyContent: "center",
     gap: 20,
@@ -164,7 +161,6 @@ const styles = StyleSheet.create({
     borderRadius: 7,
   },
   dividerLine: {
-    flex: 1,
     height: 1,
     backgroundColor: "#DFDFDF",
   },
@@ -174,7 +170,6 @@ const styles = StyleSheet.create({
     color: "#ACADAC",
   },
   SocialButtonContainer: {
-    flex: 1,
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",

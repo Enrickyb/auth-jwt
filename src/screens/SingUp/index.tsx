@@ -4,8 +4,6 @@ import {
   StyleSheet,
   Pressable,
   Image,
-  Switch,
-  Button,
   ActivityIndicator,
 } from "react-native";
 import { useContext, useEffect, useState } from "react";
@@ -15,6 +13,9 @@ import { Picker } from "@react-native-picker/picker";
 import { UserContext } from "../../context/userContext";
 import Checkbox from "expo-checkbox";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Feather } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
+import { FormButton } from "../../components/Form/FormButton";
 
 type RootStackParamList = {
   Home: undefined;
@@ -30,6 +31,7 @@ export const SingUp = ({
   const [visiblePassword, setVisiblePassword] = useState(true);
   const [selectedLanguage, setSelectedLanguage] = useState();
   const [rememberMe, setRememberMe] = useState(false);
+  const [loginFailed, setLoginFailed] = useState(false);
 
   useEffect(() => {
     auth();
@@ -46,6 +48,7 @@ export const SingUp = ({
     await login(email, password)
       .then((data) => {
         if (!data) {
+          setLoginFailed(true);
           console.log("Invalid credentials");
           return;
         }
@@ -53,11 +56,11 @@ export const SingUp = ({
           console.log("saved user on storage");
           saveUserData();
         }
-
+        setLoginFailed(false);
         navigation.navigate("Home");
       })
       .catch((error) => {
-        console.log(error);
+        setLoginFailed(true);
       });
   }
 
@@ -86,6 +89,7 @@ export const SingUp = ({
         setEmail(email);
         setPassword(password);
         setRememberMe(true);
+        handlePress();
       }
     } catch (error) {
       console.log(error);
@@ -119,20 +123,64 @@ export const SingUp = ({
       <View style={styles.container}>
         <Text style={styles.title}>Sing In to recharge Direct</Text>
         <View style={styles.inputContainer}>
-          <FormInput
-            placeholder={"Enter Email"}
-            onChangeText={handleSetEmail}
-            value={email}
-            keyboardType="email-address"
-            autoCapitalize="none"
-          />
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              position: "relative",
+            }}
+          >
+            <FormInput
+              placeholder={"Enter Email"}
+              onChangeText={handleSetEmail}
+              value={email}
+              keyboardType="email-address"
+              autoCapitalize="none"
+            />
+            <AntDesign
+              name="closecircleo"
+              size={22}
+              color="#cfcece"
+              style={{ position: "absolute", right: 10 }}
+              onPress={() => {
+                setEmail("");
+              }}
+            />
+          </View>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              position: "relative",
+            }}
+          >
+            <FormInput
+              placeholder={"Password"}
+              onChangeText={handleSetPassword}
+              value={password}
+              secureTextEntry={visiblePassword}
+              autoCapitalize="none"
+            />
+            <Feather
+              name={visiblePassword ? "eye-off" : "eye"}
+              size={22}
+              color="#cfcece"
+              a
+              style={{ position: "absolute", right: 10 }}
+              onPress={() => {
+                setVisiblePassword(!visiblePassword);
+              }}
+            />
+          </View>
 
-          <FormInput
-            placeholder={"Password"}
-            onChangeText={handleSetPassword}
-            value={password}
-            secureTextEntry={visiblePassword}
-          />
+          <View style={{ marginLeft: 5, alignSelf: "flex-start" }}>
+            {loginFailed && (
+              <Text style={{ color: "red", textAlign: "left" }}>
+                Invalid credentials
+              </Text>
+            )}
+          </View>
+
           <View
             style={{
               flexDirection: "row",
@@ -159,22 +207,26 @@ export const SingUp = ({
               <Text>Remember me</Text>
             </View>
 
-            <Pressable onPress={() => setVisiblePassword(!visiblePassword)}>
+            <Pressable>
               <Text>Forgot password?</Text>
             </Pressable>
           </View>
 
-          <Pressable onPress={handlePress} style={styles.Button}>
-            {loading ? (
-              <ActivityIndicator color="#fff" size={24} />
-            ) : (
-              <Text style={styles.TextButton}>Sing-In</Text>
-            )}
-          </Pressable>
+          <FormButton
+            title="Sing-In"
+            text={
+              loading ? (
+                <ActivityIndicator color="#fff" size={24} />
+              ) : (
+                <Text style={styles.TextButton}>Sing-In</Text>
+              )
+            }
+            onPress={handlePress}
+          />
         </View>
       </View>
 
-      <View style={{ flex: 1, flexDirection: "row", alignItems: "center" }}>
+      <View style={styles.dividerLineContainer}>
         <View style={styles.dividerLine} />
         <View>
           <Text style={styles.textOnDivider}>Or continue with</Text>
@@ -203,7 +255,7 @@ export const SingUp = ({
             navigation.navigate("Register");
           }}
         >
-          <Text style={styles.footerText}>Register here!</Text>
+          <Text style={styles.footerTextRegister}>Register here!</Text>
         </Pressable>
       </View>
     </View>
@@ -212,13 +264,15 @@ export const SingUp = ({
 
 const styles = StyleSheet.create({
   title: {
-    fontSize: 30,
+    fontSize: 27,
     marginBottom: 20,
+    fontWeight: "bold",
   },
   screen: {
     backgroundColor: "#F6F6F6",
     flex: 1,
     paddingTop: 20,
+    paddingBottom: 25,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -236,19 +290,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  Button: {
-    backgroundColor: "#4461F2",
-    width: 350,
-    height: 55,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 20,
-    borderRadius: 7,
-  },
   TextButton: {
     color: "#ffffff",
     fontSize: 16,
     borderRadius: 7,
+  },
+  dividerLineContainer: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
   },
   dividerLine: {
     height: 1,
@@ -263,6 +313,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginVertical: 20,
+    marginBottom: 70,
     gap: 20,
   },
   SocialButton: {
@@ -275,5 +326,12 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 18,
     fontFamily: "gilroy-bold",
+  },
+  footerTextRegister: {
+    textAlign: "center",
+    fontSize: 18,
+    fontFamily: "gilroy-bold",
+    color: "#4461F2",
+    fontWeight: "bold",
   },
 });
